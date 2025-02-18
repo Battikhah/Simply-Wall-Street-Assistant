@@ -109,6 +109,24 @@ def execute_function():
     formatted_result = json.dumps(result, indent=4)
     messagebox.showinfo("Result", formatted_result)
 
+def update_param_visibility(event):
+    selected_function = function_combobox.get()
+    if selected_function in ["Get Company Info by Ticker"]:
+        param2_label.grid()
+        param2_entry.grid()
+    elif selected_function in ["Get Companies by Exchange"]:
+        param3_label.grid()
+        param3_entry.grid()
+        param4_label.grid()
+        param4_entry.grid()
+    else:
+        param2_label.grid_remove()
+        param2_entry.grid_remove()
+        param3_label.grid_remove()
+        param3_entry.grid_remove()
+        param4_label.grid_remove()
+        param4_entry.grid_remove()
+
 # Create the main window
 root = tk.Tk()
 root.title("API Function Selector")
@@ -124,26 +142,40 @@ function_combobox = ttk.Combobox(root, values=[
     "Get Companies by Exchange"
 ])
 function_combobox.grid(row=0, column=1, padx=10, pady=10)
+function_combobox.bind("<<ComboboxSelected>>", update_param_visibility)
 
 # Create and place the parameter entry fields
-param1_label = tk.Label(root, text="Parameter 1:")
+param1_label = tk.Label(root, text="Name:")
 param1_label.grid(row=1, column=0, padx=10, pady=10)
 param1_entry = tk.Entry(root)
 param1_entry.grid(row=1, column=1, padx=10, pady=10)
 
-param2_label = tk.Label(root, text="Parameter 2:")
+param2_label = tk.Label(root, text="Exchange:")
 param2_label.grid(row=2, column=0, padx=10, pady=10)
 param2_entry = tk.Entry(root)
 param2_entry.grid(row=2, column=1, padx=10, pady=10)
 
-param3_label = tk.Label(root, text="Parameter 3:")
+param3_label = tk.Label(root, text="Limit:")
 param3_label.grid(row=3, column=0, padx=10, pady=10)
 param3_entry = tk.Entry(root)
 param3_entry.grid(row=3, column=1, padx=10, pady=10)
 
+param4_label = tk.Label(root, text="Offset:")
+param4_label.grid(row=4, column=0, padx=10, pady=10)
+param4_entry = tk.Entry(root)
+param4_entry.grid(row=4, column=1, padx=10, pady=10)
+
+# Initially hide param2 and param3
+param2_label.grid_remove()
+param2_entry.grid_remove()
+param3_label.grid_remove()
+param3_entry.grid_remove()
+param4_entry.grid_remove()
+param4_label.grid_remove()
+
 # Create and place the execute button
 execute_button = tk.Button(root, text="Execute", command=execute_function)
-execute_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+execute_button.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
 # Run the main loop
 root.mainloop()
